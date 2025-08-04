@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Box, Heading, Text, VStack, HStack, Link, Button, Divider, Image, useColorModeValue, Flex, IconButton, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import ParticleBackground from '../components/ParticleBackground';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -190,7 +191,19 @@ export default function Home() {
           justify="center"
           px={{ base: 2, md: 6 }}
           pt={{ base: 16, md: 20 }} // Add top padding to account for fixed nav
+          position="relative"
         >
+          {/* Particle Background */}
+          <Box
+            position="fixed"
+            top={0}
+            left={0}
+            w="100vw"
+            h="100vh"
+            zIndex={0}
+          >
+            <ParticleBackground />
+          </Box>
           <Flex 
             maxW="container.xl" 
             w="100%" 
@@ -198,6 +211,8 @@ export default function Home() {
             align="center"
             justify="space-between"
             gap={{ base: 8, md: 12 }}
+            position="relative"
+            zIndex={3}
           >
             {/* Left Column - Introduction */}
             <Flex 
@@ -231,15 +246,15 @@ export default function Home() {
                   size="xl" 
                   color="#458bd9"
                   fontWeight="semibold"
-                  fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
-                  transition="opacity 1s ease-in-out"
+                  fontSize={{ base: "lg", md: "1xl", lg: "3xl" }}
+                  transition="opacity 2s ease-in-out"
                   opacity={1}
                   key={currentTitleIndex}
                   _before={{
                     content: `"${titles[currentTitleIndex]}"`,
                     position: "absolute",
                     opacity: 0,
-                    transition: "opacity 1s ease-in-out"
+                    transition: "opacity 2s ease-in-out"
                   }}
                 >
                   {titles[currentTitleIndex]}
@@ -335,22 +350,20 @@ export default function Home() {
             >
               <Box
                 position="relative"
-                w={{ base: "220px", sm: "350px", md: "400px", lg: "500px" }}
-                h={{ base: "220px", sm: "350px", md: "400px", lg: "500px" }}
-                borderRadius="full"
-                // bg={buttonHoverBg}
+                w={{ base: "220px", sm: "350px", md: "500px", lg: "600px" }}
+                h={{ base: "220px", sm: "350px", md: "500px", lg: "600px" }}
                 display="flex"
                 align="center"
                 justify="center"
-                boxShadow="2xl"
               >
                 <Image 
                   src="/assets/MyPicture.png" 
                   alt="Kyle Fernandez" 
-                  borderRadius="full"
-                  objectFit="cover"
+                  objectFit="contain"
                   w="100%"
                   h="100%"
+                  bg={homeBg}
+                  zIndex={2}
                 />
               </Box>
             </Flex>

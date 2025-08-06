@@ -1,11 +1,12 @@
 import Head from "next/head";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Permanent_Marker } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from 'react';
 import { Box, Heading, Text, VStack, HStack, Link, Button, Divider, Image, useColorModeValue, Flex, IconButton, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import ParticleBackground from '../components/ParticleBackground';
+import ThreeRowCarousel from '../components/ThreeRowCarousel';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,12 +18,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const permanentMarker = Permanent_Marker({
+  variable: "--font-permanent-marker",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 const sections = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -36,6 +42,8 @@ function scrollToSection(id) {
 export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
   
   const titles = [
     "Web Developer",
@@ -44,12 +52,32 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
-    }, 2000); // Change every 2 seconds
+    let timeout;
+    
+    if (isTyping) {
+      const currentTitle = titles[currentTitleIndex];
+      if (currentText.length < currentTitle.length) {
+        timeout = setTimeout(() => {
+          setCurrentText(currentTitle.slice(0, currentText.length + 1));
+        }, 100); // Type speed
+      } else {
+        timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, 1500); // Pause before erasing
+      }
+    } else {
+      if (currentText.length > 0) {
+        timeout = setTimeout(() => {
+          setCurrentText(currentText.slice(0, -1));
+        }, 50); // Erase speed
+      } else {
+        setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
+        setIsTyping(true);
+      }
+    }
 
-    return () => clearInterval(interval);
-  }, [titles.length]);
+    return () => clearTimeout(timeout);
+  }, [currentText, isTyping, currentTitleIndex, titles]);
   
   // Updated dark theme colors
   const navBg = useColorModeValue("white", "#121212");
@@ -233,31 +261,38 @@ export default function Home() {
                 </Text>
                 
                 <Heading 
-                  size="2xl" 
+                  size="5xl" 
                   color={headingColor}
                   lineHeight="1.1"
                   fontWeight="bold"
                   fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}
+                  fontFamily={permanentMarker.style.fontFamily}
                 >
                   Kyle Fernandez
                 </Heading>
                 
                 <Heading 
                   size="xl" 
-                  color="#458bd9"
+                  color="white"
                   fontWeight="semibold"
-                  fontSize={{ base: "lg", md: "1xl", lg: "3xl" }}
-                  transition="opacity 2s ease-in-out"
-                  opacity={1}
-                  key={currentTitleIndex}
-                  _before={{
-                    content: `"${titles[currentTitleIndex]}"`,
-                    position: "absolute",
-                    opacity: 0,
-                    transition: "opacity 2s ease-in-out"
-                  }}
+                  fontSize={{ base: "xl", md: "2xl", lg: "4xl" }}
                 >
-                  {titles[currentTitleIndex]}
+                  I&apos;m an{" "}
+                  <Text
+                    as="span"
+                    color="#458bd9"
+                    borderRight="2px solid"
+                    borderColor="#458bd9"
+                    animation={isTyping ? "blink 1s infinite" : "none"}
+                    sx={{
+                      "@keyframes blink": {
+                        "0%, 50%": { borderColor: "#458bd9" },
+                        "51%, 100%": { borderColor: "transparent" }
+                      }
+                    }}
+                  >
+                    {currentText}
+                  </Text>
                 </Heading>
                 
                 <Text 
@@ -269,29 +304,6 @@ export default function Home() {
                   I build exceptional digital experiences that combine beautiful design with powerful functionality. 
                   Passionate about creating web applications that make a difference.
                 </Text>
-                
-                {/* <HStack spacing={4} pt={4} flexWrap="wrap">
-                  <Button 
-                    size="md" 
-                    colorScheme="blue" 
-                    bg={buttonHoverBg}
-                    color="white"
-                    _hover={{ bg: "#444444" }}
-                    px={6}
-                  >
-                    View My Work
-                  </Button>
-                  <Button 
-                    size="md" 
-                    variant="outline" 
-                    borderColor={buttonHoverBg}
-                    color={buttonColor}
-                    _hover={{ bg: buttonHoverBg, color: "white" }}
-                    px={6}
-                  >
-                    Download CV
-                  </Button>
-                </HStack> */}
                 <HStack spacing={4} pt={4} flexWrap="wrap">
                   {/* GitHub */}
                   <Button
@@ -362,8 +374,6 @@ export default function Home() {
                   objectFit="contain"
                   w="100%"
                   h="100%"
-                  bg={homeBg}
-                  zIndex={2}
                 />
               </Box>
             </Flex>
@@ -376,17 +386,161 @@ export default function Home() {
           minH="60vh" 
           py={20} 
           bg={sectionBg1}
+          boxShadow="lg"
         >
           <VStack spacing={4}>
             <Heading color={headingColor}>About Me</Heading>
-            <Text 
-              maxW="600px" 
-              textAlign="center"
-              color={textColor}
-            >
-              I am a passionate developer with experience in building web applications using modern technologies.
-            </Text>
           </VStack>
+          <Flex
+            justify="center"
+            align="center"
+            minH="100vh"
+            px={{ base: 4, md: 8 }}
+            mt={4}
+          >
+            <Box
+              py={16}
+              px={{ base: 6, md: 12 }}
+              bg={sectionBg2}
+              borderRadius="xl"
+              boxShadow="xl"
+              width={{base: "100%", md: "90%", lg: "66%"}}  
+              maxW="1200px"
+                    zIndex={3}
+              // w="100%"
+              // justify="center"
+              // align="center"
+            >
+              <Flex
+                direction={{ base: "column", lg: "row" }}
+                gap={{ base: 8, lg: 12 }}
+              >
+                {/* Left Column - Avatar Card */}
+                <Flex
+                  direction="column"
+                  flex={1}
+                  maxW={{ base: "100%", lg: "400px" }}
+                  align={{ base: "center", lg: "start" }}
+                  // textAlign={{ base: "center", lg: "left" }}
+                >
+                  {/* Avatar and Heading Row */}
+                  <Flex
+                    direction={{ base: "row", md: "row" }}
+                    align={{ base: "center", md: "start" }}
+                    justifyContent={{ base: "center", md: "flex-start" }}
+                    gap={6}
+                    mb={6}
+                    w="100%"
+                    bg={sectionBg1}
+                    borderRadius="xl"
+                    p={{ base: 3, md: 4 }}
+                  >
+                    {/* Avatar */}
+                    <Box
+                      w="120px"
+                      h="120px"
+                      borderRadius="full"
+                      overflow="hidden"
+                      boxShadow="2xl"
+                      border="2px solid"
+                      borderColor={buttonHoverBg}
+                      flexShrink={0}
+                    >
+                      <Image
+                        src="/assets/Avatar.jpg"
+                        alt="Kyle Fernandez"
+                        w="100%"
+                        h="100%"
+                        objectFit="cover"
+                      />
+                    </Box>
+
+                    {/* Heading Content */}
+                    <Flex
+                      direction="column"
+                      align={{ base: "start", md: "start" }}
+                      textAlign={{ base: "left", md: "left" }}
+                    >
+                      {/* Tagline */}
+                      <Heading
+                        color="#458bd9"
+                        fontSize="lg"
+                        fontWeight="bold"
+                        textTransform="uppercase"
+                        letterSpacing="wide"
+                        mb={2}
+                      >
+                        Building Future-Ready Tech, One Line at a Time.
+                      </Heading>
+
+                      {/* Titles */}
+                      <Text
+                        size="sm"
+                        fontWeight="semibold"
+                      >
+                        Web Developer | Mobile Developer | UI/UX Enthusiast
+                      </Text>
+                    </Flex>
+                  </Flex>
+
+                  {/* About Me Paragraph */}
+                  <Text
+                    fontSize={{ base: "md", md: "lg" }}
+                    color={textColor}
+                    lineHeight="1.7"
+                  >
+                    Hi! I&apos;m <Text as="span" fontWeight="bold">Kyle Owie Fernandez</Text>, a passionate and results-driven Computer Science graduate from Iloilo Science and Technology University. 
+                    With a strong foundation in software development, web technologies, and problem-solving, I specialize in building efficient, 
+                    user-focused digital solutions. I&apos;m dedicated to continuous learning and always eager to take on new challenges that push my technical 
+                    and creative boundaries. Whether it&apos;s developing responsive websites, streamlining backend processes, or contributing to innovative 
+                    tech projects, I bring reliability, attention to detail, and a commitment to delivering high-quality work. If you&apos;re looking for someone 
+                    who values professionalism, innovation, and client satisfaction—I&apos;m ready to help bring your ideas to life. 
+                    <br/>
+                    I perform well both independently and in collaborative settings, adapting easily to different workflows and project needs. 
+                    My flexibility allows me to take initiative when working solo while also contributing meaningfully in team-driven environments. 
+                    At the core of my work is a passion for building purposeful technology that solves real problems and creates value.
+
+                  </Text>
+                </Flex>
+
+                {/* Right Column - Three Row Carousel */}
+                <Flex
+                  flex={1}
+                  justify="center"
+                  align="center"
+                  direction={{ base: "row", lg: "column" }}
+                  maxW={{ base: "100%", lg: "800px" }}
+                  gap={2}
+                >
+                  <Box
+                    position="relative"
+                    w="100%"
+                    overflow="hidden"
+                    borderRadius="xl"
+                    boxShadow="xl"
+                  >
+                    <ThreeRowCarousel 
+                      images={[
+                        "/assets/Image1.jpeg",
+                        "/assets/Image2.jpg",
+                        "/assets/Image3.jpeg",
+                        "/assets/Image4.jpg",
+                        "/assets/Image5.jpg",
+                        "/assets/Image6.jpg",
+                        "/assets/Image7.jpeg",
+                        "/assets/Image8.jpg",
+                        "/assets/Image9.jpg",
+                        "/assets/Image10.jpeg",
+                        "/assets/Image11.jpeg",
+                      ]}
+                      autoPlay={true}
+                      interval={6000}
+                    />
+                  </Box>
+                </Flex>
+              </Flex>
+            </Box>
+          </Flex>
         </Box>
         <Divider borderColor={dividerColor} />
         {/* Skills Section */}
@@ -419,27 +573,12 @@ export default function Home() {
           </VStack>
         </Box>
         <Divider borderColor={dividerColor} />
-        {/* Experience Section */}
-        <Box 
-          id="experience" 
-          minH="60vh" 
-          py={20} 
-          bg={sectionBg2}
-        >
-          <VStack spacing={4}>
-            <Heading color={headingColor}>Experience</Heading>
-            <Text color={textColor}>
-              Company 1, Company 2, ...
-            </Text>
-          </VStack>
-        </Box>
-        <Divider borderColor={dividerColor} />
         {/* Contact Section */}
         <Box 
           id="contact" 
           minH="60vh" 
           py={20} 
-          bg={sectionBg1}
+          bg={sectionBg2}
         >
           <VStack spacing={4}>
             <Heading color={headingColor}>Contact</Heading>

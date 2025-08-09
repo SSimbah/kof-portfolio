@@ -7,6 +7,7 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import ParticleBackground from '../components/ParticleBackground';
 import ThreeRowCarousel from '../components/ThreeRowCarousel';
+import SkillsCarousel from '../components/SkillsCarousel';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,7 @@ export default function Home() {
   const [currentText, setCurrentText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const titles = [
     "Web Developer",
     "Mobile Developer", 
@@ -401,7 +403,7 @@ export default function Home() {
             <Box
               py={16}
               px={{ base: 6, md: 12 }}
-              bg={sectionBg2}
+              // bg={sectionBg2}
               borderRadius="xl"
               boxShadow="xl"
               width={{base: "100%", md: "90%", lg: "66%"}}  
@@ -431,7 +433,7 @@ export default function Home() {
                     gap={6}
                     mb={6}
                     w="100%"
-                    bg={sectionBg1}
+                    bg={sectionBg2}
                     borderRadius="xl"
                     p={{ base: 3, md: 4 }}
                   >
@@ -552,9 +554,7 @@ export default function Home() {
         >
           <VStack spacing={4}>
             <Heading color={headingColor}>Skills</Heading>
-            <Text color={textColor}>
-              JavaScript, React, Next.js, Chakra UI, Node.js, ...
-            </Text>
+            <SkillsCarousel />
           </VStack>
         </Box>
         <Divider borderColor={dividerColor} />

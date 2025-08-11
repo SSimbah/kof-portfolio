@@ -2,12 +2,14 @@ import Head from "next/head";
 import { Geist, Geist_Mono, Permanent_Marker } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from 'react';
-import { Box, Heading, Text, VStack, HStack, Link, Button, Divider, Image, useColorModeValue, Flex, IconButton, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure } from '@chakra-ui/react';
+import { Card, Box, Heading, Text, VStack, HStack, Link, Button, Divider, Image, useColorModeValue, Flex, IconButton, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import ParticleBackground from '../components/ParticleBackground';
 import ThreeRowCarousel from '../components/ThreeRowCarousel';
 import SkillsCarousel from '../components/SkillsCarousel';
+import ProjectsSection from "@/components/ProjectSection";
+import ContactSection from "@/components/ContactSection";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -83,9 +85,9 @@ export default function Home() {
   
   // Updated dark theme colors
   const navBg = useColorModeValue("white", "#121212");
-  const navBorderColor = useColorModeValue("gray.200", "#3d3d3d");
+  const navBorderColor = useColorModeValue("gray.200", "#2d2d2d");
   const buttonColor = useColorModeValue("gray.800", "white");
-  const buttonHoverBg = useColorModeValue("gray.100", "#3d3d3d");
+  const buttonHoverBg = useColorModeValue("gray.100", "#2d2d2d");
   const homeBg = useColorModeValue("gray.50", "#121212");
   const headingColor = useColorModeValue("gray.800", "white");
   const textColor = useColorModeValue("gray.600", "white");
@@ -279,7 +281,7 @@ export default function Home() {
                   fontWeight="semibold"
                   fontSize={{ base: "xl", md: "2xl", lg: "4xl" }}
                 >
-                  I&apos;m an{" "}
+                  I&apos;m a{" "}
                   <Text
                     as="span"
                     color="#458bd9"
@@ -381,7 +383,7 @@ export default function Home() {
             </Flex>
           </Flex>
         </Flex>
-        <Divider borderColor={dividerColor} />
+        {/* <Divider borderColor={dividerColor} /> */}
         {/* About Section */}
         <Box 
           id="about" 
@@ -565,13 +567,12 @@ export default function Home() {
           py={20} 
           bg={sectionBg1}
         >
-          <VStack spacing={4}>
+          <VStack spacing={8} px={{ base: 4, md: 8 }}>
             <Heading color={headingColor}>Projects</Heading>
-            <Text color={textColor}>
-              Project 1, Project 2, Project 3, ...
-            </Text>
+            <ProjectsSection />
           </VStack>
         </Box>
+
         <Divider borderColor={dividerColor} />
         {/* Contact Section */}
         <Box 
@@ -581,10 +582,14 @@ export default function Home() {
           bg={sectionBg2}
         >
           <VStack spacing={4}>
-            <Heading color={headingColor}>Contact</Heading>
-            <Text color={textColor}>
-              Email: your.email@example.com
-            </Text>
+            {/* <Heading color={headingColor}>Contact</Heading> */}
+             <ContactSection
+              headingColor = {useColorModeValue("gray.800", "white")}
+              textColor = {useColorModeValue("gray.600", "white")}
+              sectionBg1 = {useColorModeValue("white", "#121212")}
+              buttonColor = {useColorModeValue("gray.800", "#121212")}
+              buttonHoverBg = {useColorModeValue("gray.800", "#2d2d2d")}
+            />
           </VStack>
         </Box>
       </Box>

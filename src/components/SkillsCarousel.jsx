@@ -52,7 +52,7 @@ export default function SkillsCarousel() {
   });
 
   return (
-    <Box mt={8} w="50%" position="relative">
+    <Box mt={8} width={{ base: "100%", md: "60%" }} position="relative">
       {/* Fade mask */}
       <Box
         position="absolute"
@@ -61,14 +61,14 @@ export default function SkillsCarousel() {
         h="100%"
         w="100%"
         pointerEvents="none"
-        zIndex={2}
+        zIndex={1}
         bgGradient={`linear(to-r, ${sectionBg2} 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, ${sectionBg2} 100%)`}
       />
 
       {/* Top row */}
       <Box sx={rowStyle}>
         <Box ref={topRowRef} sx={innerStyle(false)}>
-          <HStack spacing={9}>
+          <HStack spacing={10}>
             {doubled.map((skill, idx) => (
               <Box
                 key={`top-${idx}`}
@@ -93,7 +93,7 @@ export default function SkillsCarousel() {
       {/* Bottom row */}
       <Box mt={8} sx={rowStyle}>
         <Box sx={innerStyle(true)}>
-          <HStack spacing={9}>
+          <HStack spacing={10}>
             {doubled.map((skill, idx) => (
               <Box
                 key={`bot-${idx}`}

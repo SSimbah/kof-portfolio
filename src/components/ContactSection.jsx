@@ -99,11 +99,11 @@ export default function ContactSection({ sectionBg1, headingColor, textColor, bu
                     size="md"
                     variant="ghost"
                     leftIcon={<FaGithub size="20px" />}
-                    bgColor={buttonColor}
+                    // bgColor={buttonColor}
                     _hover={{ bg: buttonHoverBg }}
                     px={4}
                   >
-                    GitHub
+                    SSimbah
                   </Button>
 
                   {/* LinkedIn */}
@@ -114,18 +114,18 @@ export default function ContactSection({ sectionBg1, headingColor, textColor, bu
                     size="md"
                     variant="ghost"
                     leftIcon={<FaLinkedin size="20px" />}
-                    bgColor={buttonColor}
+                    // bgColor={buttonColor}
                     _hover={{ bg: buttonHoverBg }}
                     px={4}
                   >
-                    LinkedIn
+                    Kyle Fernandez
                   </Button>
             </HStack>
 
         </VStack>
 
         {/* Right Column - Contact Form */}
-        <Box as="form" flex="1" onSubmit={handleSubmit} bg={sectionBg1} p={8} borderRadius="md" boxShadow="lg" zIndex={3}>
+        <Box as="form" flex="1" onSubmit={handleSubmit} bg={"blackAlpha.400"} p={8} borderRadius="md" boxShadow="lg" zIndex={3}>
           <VStack spacing={4}>
             <FormControl isRequired>
               <FormLabel color={textColor}>Name</FormLabel>
@@ -161,8 +161,7 @@ export default function ContactSection({ sectionBg1, headingColor, textColor, bu
 
             <Button
               type="submit"
-              colorScheme="blue"
-              bgColor={"#458bd9"}
+              colorScheme="teal"
               width="full"
               isLoading={loading}
               loadingText="Sending"

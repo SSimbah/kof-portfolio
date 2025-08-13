@@ -284,13 +284,13 @@ export default function Home() {
                   I&apos;m a{" "}
                   <Text
                     as="span"
-                    color="#458bd9"
+                    color="teal.200"
                     borderRight="2px solid"
-                    borderColor="#458bd9"
+                    borderColor="teal.200"
                     animation={isTyping ? "blink 1s infinite" : "none"}
                     sx={{
                       "@keyframes blink": {
-                        "0%, 50%": { borderColor: "#458bd9" },
+                        "0%, 50%": { borderColor: "teal.200" },
                         "51%, 100%": { borderColor: "transparent" }
                       }
                     }}
@@ -351,7 +351,7 @@ export default function Home() {
                     _hover={{ bg: buttonHoverBg, color: "white" }}
                     px={6}
                   >
-                    Download CV
+                    Resume
                   </Button>
                 </HStack>
               </VStack>
@@ -467,7 +467,7 @@ export default function Home() {
                     >
                       {/* Tagline */}
                       <Heading
-                        color="#458bd9"
+                        color="teal.200"
                         fontSize="lg"
                         fontWeight="bold"
                         textTransform="uppercase"
@@ -591,6 +591,17 @@ export default function Home() {
               buttonHoverBg = {useColorModeValue("gray.800", "#2d2d2d")}
             />
           </VStack>
+        </Box>
+        <Box 
+          bg={sectionBg1}
+          justifyContent={"center"}
+          alignItems={"center"}
+          textAlign="center"
+          py={4}
+        >
+        <Text>
+          All rights reserved © {new Date().getFullYear()} Kyle Fernandez
+        </Text>
         </Box>
       </Box>
     </>

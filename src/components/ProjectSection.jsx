@@ -1,37 +1,48 @@
-import { Box, VStack, Heading, Text, HStack, Link, Button, Image, useColorModeValue, Card } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  Heading,
+  Text,
+  HStack,
+  Image,
+  useColorModeValue,
+  Card,
+  Badge
+} from "@chakra-ui/react";
 
 const ProjectsSection = () => {
-  const buttonColor = useColorModeValue("gray.800", "white");
-  const buttonHoverBg = useColorModeValue("gray.100", "#3d3d3d");
-  const homeBg = useColorModeValue("gray.50", "#121212");
   const headingColor = useColorModeValue("gray.800", "white");
   const textColor = useColorModeValue("gray.600", "white");
   const sectionBg1 = useColorModeValue("white", "#121212");
   const sectionBg2 = useColorModeValue("gray.50", "#3d3d3d");
+
   const projects = [
     {
-      title: "Project 1 Title",
+      title: "Student Attendance System",
       description:
-        "A short description of the project goes here. It explains what the project is about, the technologies used, and its purpose.",
-      image: "/assets/avatar.jpg",
-      codeLink: "https://github.com/yourprojectlink",
-      demoLink: "https://yourprojectdemo.com",
+        "The Student Attendance System is a digital solution designed to streamline and automate the process of tracking class attendance. Traditionally, recording attendance at the start of every session can be time-consuming and prone to errors, taking away valuable instructional time. This system allows teachers to efficiently monitor student presence and punctuality, ensuring accurate and timely records.",
+      image: "/assets/Project1.png",
+      tech: ["Ionic", "ASP.NET", "SQL Server"]
     },
     {
-      title: "Project 2 Title",
+      title: "Amigo Vibes",
       description:
-        "Another project description goes here, highlighting key features and functionality.",
-      image: "/assets/avatar.jpg",
-      codeLink: "#",
-      demoLink: "#",
+        "Amigo Vibes is a blog site dedicated to showcasing the band’s latest music releases, song covers, and exciting activities. It serves as a creative hub where fans can stay updated on new tracks, behind-the-scenes moments, and upcoming events, offering a closer connection to the band’s journey and artistic expression.",
+      image: "/assets/Project2.png",
+      tech: ["Wordpress", "Divi", "Figma"]
     },
-    // Add more projects here...
+    {
+      title: "MAKALAP",
+      description:
+        "MAKALAP is a Resume Screening System, implemented as a mobile-responsive website, aimed at enhancing the efficiency, fairness, and objectivity of the applicant evaluation process. The system leverages parsing algorithms to extract structured data from PDF resumes and employs Latent Semantic Analysis (LSA)—a Natural Language Processing (NLP) technique—to assess the semantic relevance between applicant qualifications and job requirements.",
+      image: "/assets/Project3.png",
+      tech: ["ASP.NET", "Python", "NLP", "SQL Server"]
+    }
   ];
 
   return (
     <Box id="projects" minH="60vh" bg={sectionBg1}>
       <VStack spacing={10} px={{ base: 4, md: 8 }}>
-
         {projects.map((project, index) => (
           <Card
             key={index}
@@ -61,29 +72,19 @@ const ProjectsSection = () => {
               </Heading>
               <Text color={textColor}>{project.description}</Text>
 
-              <HStack>
-                {project.codeLink && (
-                  <Button
-                    as={Link}
-                    href={project.codeLink}
-                    target="_blank"
-                    size="sm"
-                    colorScheme="blue"
-                  >
-                    View Code
-                  </Button>
-                )}
-                {project.demoLink && (
-                  <Button
-                    as={Link}
-                    href={project.demoLink}
-                    target="_blank"
-                    size="sm"
+              {/* Tech Stack */}
+              <HStack spacing={2} flexWrap="wrap">
+                {project.tech.map((t, i) => (
+                  <Badge
+                    key={i}
                     colorScheme="teal"
+                    px={2}
+                    py={1}
+                    borderRadius="md"
                   >
-                    Live Demo
-                  </Button>
-                )}
+                    {t}
+                  </Badge>
+                ))}
               </HStack>
             </VStack>
           </Card>
